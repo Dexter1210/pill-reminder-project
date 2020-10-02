@@ -1,0 +1,24 @@
+Rails.application.routes.draw do
+
+  resources :medical_histories
+
+  get "medical_histories/:user_id/users_with_deps", to: "medical_histories#get_self_and_dependents"
+  get "medical_histories/:user_id/users", to: "medical_histories#get_for_self"
+  get "medical_histories/:user_id/deps", to: "medical_histories#get_for_dependents"
+
+  resources :dependents
+  root 'home#index'
+  resources :users
+  resources :sessions,only: [:new,:create,:destroy]
+
+  get 'signup',to: 'users#new',as:'signup'
+  get 'login',to: 'sessions#new',as:'login'
+  get 'logout', to: 'sessions#destroy',as:'logout'
+
+  delete 'logout', to: 'sessions#destroy',as: 'logout_delete'
+
+  get 'home/index'
+
+  
+  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+end
