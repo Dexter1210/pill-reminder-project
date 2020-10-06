@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_01_090723) do
+ActiveRecord::Schema.define(version: 2020_10_05_075523) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_090723) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "dependent_id", null: false
+    t.integer "dependent_id"
     t.index ["dependent_id"], name: "index_medical_histories_on_dependent_id"
     t.index ["user_id"], name: "index_medical_histories_on_user_id"
   end
@@ -76,10 +76,12 @@ ActiveRecord::Schema.define(version: 2020_10_01_090723) do
     t.string "phone"
     t.string "country"
     t.date "date_of_birth"
+    t.string "blood_group"
+    t.string "height"
+    t.string "weight"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "dependents", "users"
   add_foreign_key "medical_histories", "dependents"
   add_foreign_key "medical_histories", "users"

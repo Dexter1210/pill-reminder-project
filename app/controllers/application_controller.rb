@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
 
-    helper_method :current_user
-
+    
     protect_from_forgery unless: -> {request.format.json?}
     before_action :validate_user!,except:[:login]
 
@@ -13,24 +12,20 @@ class ApplicationController < ActionController::Base
             token=token.split(" ")[1]
 
             begin
-                jwt_payload=JWT.decode(token,Rails.application.secrets.secret_keybase).first
+                jwt_payload=JWT.decode(token,Rails.application.secrets.secret_key_base).first
                 @current_user_id=jwt_payload['id']
+                puts @current_user_id
 
             rescue=>exception
+                p exception
                 head :unauthorized
             end
 
         else
-            #head :unauthorized
+            head :unauthorized
         end
         
     end
 
-    def current_user
-        if session[:user_id]
-            @current_user ||=User.find(session[:user_id])
-        else
-            @current_user=nil
-        end
-    end
-end
+
+ end

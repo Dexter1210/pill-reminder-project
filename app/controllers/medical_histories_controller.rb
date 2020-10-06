@@ -132,7 +132,10 @@ class MedicalHistoriesController < ApplicationController
     @medical_history.destroy
     respond_to do |format|
       format.html { redirect_to medical_histories_url, notice: 'Medical history was successfully destroyed.' }
-      format.json { head :no_content }
+      # format.json { head :no_content,status: :ok  }
+      # format.json {render json: @medical_history, status: :ok  }
+      format.json {render json: {id: @medical_history.id}, status: :ok }
+      
     end
   end
 
