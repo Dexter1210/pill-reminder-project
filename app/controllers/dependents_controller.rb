@@ -62,6 +62,13 @@ class DependentsController < ApplicationController
     end
   end
 
+  def get_all_dependents
+    user_id = params[:user_id]
+    @dependents = Dependent.where(user_id: user_id)
+
+    render json: @dependents
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_dependent

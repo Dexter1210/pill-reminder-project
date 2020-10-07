@@ -5,20 +5,22 @@ class MedicalHistoriesController < ApplicationController
   # GET /medical_histories.json
   def index
     @medical_histories = MedicalHistory.all
+    render json: @medical_histories
   end
 
   # GET /medical_histories/1
   # GET /medical_histories/1.json
   def show
+    render json: @medical_histories
   end
 
   def get_for_self
     user_id = params[:user_id]
 
-    # @medical_histories = MedicalHistory
-    #       .where(user_id: user_id, dependent_id: nil)
-    #       .where("( ? BETWEEN startdate AND enddate OR ? BETWEEN startdate AND enddate)", DateTime.now.to_date, DateTime.now.next_day.to_date)
-    #       .order(:startdate, :asc)
+    #  @medical_histories = MedicalHistory
+    #        .where(user_id: user_id, dependent_id: nil)
+    #        .where("( ? BETWEEN startdate AND enddate OR ? BETWEEN startdate AND enddate)", DateTime.now.to_date, DateTime.now.next_day.to_date)
+    #        .order(:startdate, :asc)
 
     # for today
     @medical_histories = MedicalHistory
@@ -81,6 +83,19 @@ class MedicalHistoriesController < ApplicationController
   def get_self_and_dependents
     user_id = params[:user_id]
     @medical_histories = MedicalHistory.where(user_id: user_id)
+
+    render json: @medical_histories
+  end
+
+  def get_all_for_self
+    user_id=params[:user_id]
+    @medical_histories=MedicalHistory.where(user_id: user_id, dependent_id: nil)
+    render json: @medical_histories
+  end
+
+  def get_all_for_dep
+    user_id = params[:user_id]
+    @medical_histories = MedicalHistory.where(user_id: user_id).where.not(dependent_id: nil)
 
     render json: @medical_histories
   end
